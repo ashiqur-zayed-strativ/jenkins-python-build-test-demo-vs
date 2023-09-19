@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                git branch: 'master', url: 'https://github.com/Siddharth1325/pytest-intro-vs.git'
+                git branch: 'master', url: 'https://github.com/Siddharth1325/jenkins-python-build-test-demo-vs.git'
                 sh 'python3 ops.py'
             }
         }
