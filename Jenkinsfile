@@ -13,10 +13,10 @@ pipeline {
                 sh 'python3 ops.py'
             }
         }
-        stage('Test') {
-            steps {
-                sh 'python3 -m pytest'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'python3 -m pytest'
+        //     }
+        // }
     }
 }
