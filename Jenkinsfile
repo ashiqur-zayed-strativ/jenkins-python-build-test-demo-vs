@@ -11,23 +11,29 @@ pipeline {
 
         stage('Set Up Virtual Environment') {
             steps {
-                // Create and activate a virtual environment
+                // Create a virtual environment
                 sh 'python3 -m venv venv'
-                sh '. venv/bin/activate'
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 // Install dependencies from requirements.txt
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                sh 'venv/bin/pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Ops Script') {
+            steps {
+                // Run the ops.py script
+                sh 'venv/bin/python ops.py'
             }
         }
 
         stage('Run Tests') {
             steps {
                 // Run tests using pytest
-                sh '. venv/bin/activate && pytest test_ops.py'
+                sh 'venv/bin/pytest --junitxml=test-results/results.xml test_ops.py'
             }
         }
     }
