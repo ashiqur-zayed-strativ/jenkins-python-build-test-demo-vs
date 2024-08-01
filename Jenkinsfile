@@ -4,19 +4,32 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MdZayed01/jenkins-python-build-test-demo-vs.git']]])
+                // Checkout the code from your version control system
+                checkout scm
             }
         }
-        stage('Build') {
+
+        stage('Install Dependencies') {
             steps {
-                git branch: 'main', url: 'https://github.com/MdZayed01/jenkins-python-build-test-demo-vs.git'
-                sh 'python3 ops.py'
+                // Install dependencies from requirements.txt
+                sh 'pip install -r requirements.txt'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh 'python3 -m pytest'
-        //     }
-        // }
+
+        stage('Run Tests') {
+            steps {
+                // Run tests using pytest
+                sh 'pytest test_ops.py'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Archive test results
+            junit '**/test-results/*.xml'
+            // Clean up the workspace
+            cleanWs()
+        }
     }
 }
